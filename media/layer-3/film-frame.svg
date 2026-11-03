@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 725" fill="none">
+<defs>
+<g id="corner" stroke-linecap="round" stroke-linejoin="round">
+<path d="M28 165V69Q28 28 69 28H165M38 153V73Q38 38 73 38H153"/>
+<path d="M46 139C46 99 96 106 94 64C93 42 63 42 62 62C61 80 82 82 84 68C86 57 72 55 72 64M44 111C66 109 49 84 55 78M111 44C109 66 84 49 78 55"/>
+<path d="M50 155C67 120 105 130 113 100C123 67 153 68 169 49M59 144C93 133 75 108 97 102C116 97 113 83 114 77M90 124C129 122 138 94 148 83C131 84 112 90 107 108M113 100C128 99 136 90 148 83M61 108C67 89 55 82 46 77C43 91 44 103 61 108M112 58C93 64 84 53 79 45C94 42 106 43 112 58"/>
+<path d="M30 188C52 173 42 158 50 145M188 30C173 52 158 42 145 50"/>
+<circle cx="49" cy="49" r="4"/><circle cx="28" cy="178" r="2"/><circle cx="178" cy="28" r="2"/>
+</g>
+<g id="crest">
+<path d="M-100 0C-74 0-77 18-53 17C-28 16-32-15-13-15C7-15 1 8-9 6C-20 4-11-7-7-2M100 0C74 0 77 18 53 17C28 16 32-15 13-15C-7-15-1 8 9 6C20 4 11-7 7-2M-65 7C-48 9-34 5-29-7M65 7C48 9 34 5 29-7M-20 14Q0 36 20 14M-13 19Q0 44 13 19M0-21C-14-34 0-40 0-47C0-40 14-34 0-21Z"/>
+</g>
+</defs>
+<g stroke="#c6ab75" stroke-width="1.4" opacity=".85">
+<use href="#corner"/><use href="#corner" transform="translate(1000 0) scale(-1 1)"/><use href="#corner" transform="translate(0 725) scale(1 -1)"/><use href="#corner" transform="translate(1000 725) scale(-1 -1)"/>
+<path d="M166 28H400M600 28H834M176 38H395M605 38H824M166 697H400M600 697H834M176 687H395M605 687H824M28 188V537M38 194V531M972 188V537M962 194V531"/>
+<use href="#crest" transform="translate(500 43)"/><use href="#crest" transform="translate(500 682) scale(1 -1)"/>
+<path d="M28 331C12 347 12 378 28 394C44 378 44 347 28 331ZM972 331C956 347 956 378 972 394C988 378 988 347 972 331Z"/>
+</g></svg>
