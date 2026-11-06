@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="zh-CN">
   <head>
     <meta charset="UTF-8" />
@@ -11,5 +11,79 @@
   </head>
   <body>
     <div id="root"></div>
+    <style>
+      /* Keep the text rectangle inside the ellipse, including its corners. */
+      .first-layer-ellipse { container-type: size; }
+      .first-layer-ellipse__inner {
+        width: 70%; height: 64%; max-width: 70%; max-height: 64%;
+        padding: 0.25em; margin: 0; box-sizing: border-box;
+        justify-content: center; overflow: visible;
+      }
+      .first-layer-ellipse__paragraph {
+        flex: none; max-width: 100%; margin: 0; padding: 0;
+        font-size: var(--first-layer-fit, 2.8cqw) !important;
+        line-height: 1.4; letter-spacing: 0;
+        white-space: normal; overflow-wrap: anywhere; text-wrap: pretty;
+      }
+      @media (max-width: 600px) {
+        .first-layer-ellipse__paragraph { line-height: 1.35; }
+      }
+    </style>
+    <script>
+      // Measure both complete paragraphs so typing never changes the font size.
+      (() => {
+        const paragraphs = [
+          'This project stems from my personal experience and my reflection on whether "watching equals understanding": when a work is publicly displayed, will the viewer\'s evaluation, understanding, and dissemination reshape or even occupy the meaning of the work?',
+          'Due to this viewpoint, I have written a story about a star falling onto Earth and being discovered by a scientist. Scientists try to see the space world they imagine through the brains of stars, but is what they see real?'
+        ];
+        let frame = 0;
+        const resize = new ResizeObserver(schedule);
+        const observed = new WeakSet();
+        function schedule() {
+          if (!frame) frame = requestAnimationFrame(fit);
+        }
+        function fit() {
+          frame = 0;
+          document.querySelectorAll('.first-layer-ellipse__inner').forEach(inner => {
+            const p = inner.querySelector('.first-layer-ellipse__paragraph');
+            if (!p || !inner.clientWidth || !inner.clientHeight) return;
+            if (!observed.has(inner)) { observed.add(inner); resize.observe(inner); }
+            const css = getComputedStyle(p);
+            const box = getComputedStyle(inner);
+            const width = inner.clientWidth - parseFloat(box.paddingLeft) - parseFloat(box.paddingRight);
+            const height = inner.clientHeight - parseFloat(box.paddingTop) - parseFloat(box.paddingBottom);
+            const probe = document.createElement('div');
+            Object.assign(probe.style, {
+              position: 'fixed', left: '-10000px', top: '0', visibility: 'hidden',
+              width: width + 'px', fontFamily: css.fontFamily, fontWeight: css.fontWeight,
+              lineHeight: css.lineHeight === 'normal' ? '1.4' : String(parseFloat(css.lineHeight) / parseFloat(css.fontSize)),
+              letterSpacing: '0', overflowWrap: 'anywhere', whiteSpace: 'normal', textWrap: 'pretty'
+            });
+            document.body.append(probe);
+            let low = 1, high = Math.min(34, inner.parentElement.clientWidth * 0.028);
+            for (let i = 0; i < 12; i++) {
+              const size = (low + high) / 2;
+              probe.style.fontSize = size + 'px';
+              const fits = paragraphs.every(text => {
+                probe.textContent = text + ' |';
+                return probe.scrollHeight <= height - 2 && probe.scrollWidth <= width;
+              });
+              if (fits) low = size; else high = size;
+            }
+            probe.remove();
+            const value = Math.floor(low * 10) / 10 + 'px';
+            if (p.style.getPropertyValue('--first-layer-fit') !== value)
+              p.style.setProperty('--first-layer-fit', value);
+          });
+        }
+        new MutationObserver(schedule).observe(document.getElementById('root'), {
+          childList: true, subtree: true, attributes: true, attributeFilter: ['style', 'class']
+        });
+        document.fonts.ready.then(schedule);
+        document.fonts.addEventListener('loadingdone', schedule);
+        window.addEventListener('resize', schedule);
+        schedule();
+      })();
+    </script>
   </body>
 </html>
